@@ -1,37 +1,45 @@
-package vn.edu.usth.planetapp;
+package vn.edu.usth.marketapp;
 
 import android.os.Bundle;
-import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    // AdapterView
+    RecyclerView recyclerView;
 
-    ListView listView;
-    ArrayList<Planet> planetArrayList;
-    private static MyCustomAdapter adapter;
+    // Data source
+    List<Item> itemList;
+
+    // Adapter
+    MyAdapter myAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        //
-        listView = findViewById(R.id.listview);
 
-        // data source
-        planetArrayList = new ArrayList<>();
-        // add data
+        recyclerView = findViewById(R.id.recyclerView);
+        itemList = new ArrayList<>();
+        // create data objects here
 
-        // adapter
-        adapter = new MyCustomAdapter(planetArrayList, getApplicationContext());
-        listView.setAdapter(adapter); // link ListView vs adpter
+        // set layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         //
+        myAdapter = new MyAdapter(itemList);
+        recyclerView.setAdapter(myAdapter);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
